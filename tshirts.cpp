@@ -2,15 +2,14 @@
 #include <assert.h>
 
 char size(int cms) {
-    char sizeName = '\0';
     if(cms < 38) {
-        sizeName = 'S';
+        return 'S';
     } else if(cms > 38 && cms < 42) {
-        sizeName = 'M';
+        return 'M';
     } else if(cms > 42) {
-        sizeName = 'L';
+        return 'L';
     }
-    return sizeName;
+    return '\0';
 }
 
 void testTshirtSize() {
@@ -18,5 +17,9 @@ void testTshirtSize() {
     assert(size(37) == 'S');
     assert(size(40) == 'M');
     assert(size(43) == 'L');
+    assert(size(38) == 'M');
+    assert(size(42) == 'L');
     std::cout << "All is well (maybe!)\n";
 }
+
+
