@@ -1,36 +1,49 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <cassert>
+#include <assert.h>
 
-// Define colors as string literals
-const char* majorColor[] = {"White", "Red", "Black", "Yellow", "Violet"};
-const char* minorColor[] = {"Blue", "Orange", "Green", "Brown", "Slate"};
+std::vector<std::tuple<int, std::string, std::string>> generateColorMap() {
+    const char* majorColor[] = {"White", "Red", "Black", "Yellow", "Violet"};
+    const char* minorColor[] = {"Blue", "Orange", "Green", "Brown", "Slate"};
 
-// Structure to hold a color map entry
-struct ColorMapEntry {
-    int number;
-    std::string major;
-    std::string minor;
-};
+    std::vector<std::tuple<int, std::string, std::string>> colorMap;
 
-// Function to generate the color map entries
-std::vector<ColorMapEntry> generateColorMap() {
-    std::vector<ColorMapEntry> colorMap;
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            colorMap.push_back({i * 5 + j, majorColor[i], minorColor[j]});
+            colorMap.emplace_back(i * 5 + j, majorColor[i], minorColor[i]);
         }
     }
     return colorMap;
 }
 
-// Function to print the color map entries with proper alignment
-void printColorMap(const std::vector<ColorMapEntry>& colorMap) {
-    std::cout << "---------------------------------\n";
-    for (const auto& entry : colorMap) {
-        std::cout << entry.number << "      | " 
-                  << entry.major << "       | " 
-                  << entry.minor << "\n";
+std::string formatColorMapEntry(int index, const std::string& major, const std::string& minor) {
+    return std::to_string(index) + " | " + major + " | " + minor;
+}
+
+void printOnConsole(std::string& lineContent){
+      std::cout<<lineContent<<std::endl;
+}
+int printColorMap(const std::function<void(const std::string&)>& outputFunc) {
+    auto colorMap = generateColorMap();
+    for (const auto& [index, major, minor] : colorMap) {
+        outputFunc(formatColorMapEntry(index, major, minor));
     }
+    return static_cast<int>(colorMap.size());
+}
+/* TEST Environment */
+vector<string&> capturedLines;
+void MockOutputFunc(std::string& lineContent){
+    actualManual.push_back(lineContent);
+}
+void testPrintColorMap() {
+    std::cout << "\nPrint color map test\n"; 
+    int result = printColorMap(MockOutputFunc); 
+    assert(result == 25);//value based test
+    assert(capturedLines[1]="1 | White | Orange");
+    std::cout << "All is well (maybe!)\n";
+}
+
+
+int main() {
+    testPrintColorMap();
+    return 0;
 }
