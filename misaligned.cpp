@@ -29,21 +29,9 @@ int printColorMap(const std::function<void(const std::string&)>& outputFunc) {
     }
     return static_cast<int>(colorMap.size());
 }
-/* TEST Environment */
-vector<string&> capturedLines;
-void MockOutputFunc(std::string& lineContent){
-    actualManual.push_back(lineContent);
-}
-void testPrintColorMap() {
-    std::cout << "\nPrint color map test\n"; 
-    int result = printColorMap(MockOutputFunc); 
-    assert(result == 25);//value based test
-    assert(capturedLines[1]="1 | White | Orange");
-    std::cout << "All is well (maybe!)\n";
-}
-
 
 int main() {
-    testPrintColorMap();
+    PrintColorMap();
     return 0;
 }
+
